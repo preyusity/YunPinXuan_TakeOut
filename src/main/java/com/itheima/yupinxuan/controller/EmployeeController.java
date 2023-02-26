@@ -99,7 +99,7 @@ public class EmployeeController {
     public R<Page> page(int page,int pageSize,String name){
         log.info("page = {},pageSize = {},name = {}",page,pageSize,name);
         //构造分页构造器
-        Page pageInfo=new Page(page,pageSize);
+        Page pageInfo = new Page(page,pageSize);
         //添加过滤条件
         LambdaQueryWrapper<Employee> queryWrapper=new LambdaQueryWrapper<>();
         //添加排序条件
@@ -109,4 +109,36 @@ public class EmployeeController {
         employeeService.page(pageInfo,queryWrapper);
         return R.success(pageInfo);
         }
+
+    /**根据id修改员工信息
+     *
+      * @param request
+     * @param employee
+     * @return
+     */
+    @PutMapping
+    public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
+        //因为传过来的Employee是json格式的所以需要在Employee employee前加@RequestBody
+                log.info(employee.toString());
+                Long emp = (Long) request.getSession().getAttribute("employee");
+                employee.setUpdateTime(LocalDateTime.now());
+                employee.setUpdateUser(emp);
+                employeeService.updateById(employee);
+        return R.success("员工信息修改成功");
+    }
+
+    /**根据id查员工信息
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id){
+        log.info("根据id查员工信息");
+        Employee byId = employeeService.getById(id);
+        if (byId !=null){
+            return R.success(byId);
+        }
+        return R.error("没有查询到员工信息");
+    }
 }
