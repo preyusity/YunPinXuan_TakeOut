@@ -1,6 +1,7 @@
 package com.itheima.yupinxuan.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.itheima.yupinxuan.common.BaseContext;
 import com.itheima.yupinxuan.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -44,6 +45,8 @@ public class LoginCheckFilter implements Filter {
         }
         //4、判断登录状态，如果已登录，
         if (request.getSession().getAttribute("employee")!=null){
+            Long x= (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrectId(x);
             log.info("用户已登录，用户id为：{}",request.getSession().getAttribute("employee"));
             filterChain.doFilter(request,response);
             return;

@@ -1,4 +1,4 @@
-package com.itheima.yupinxuan.Employee;
+package com.itheima.yupinxuan.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

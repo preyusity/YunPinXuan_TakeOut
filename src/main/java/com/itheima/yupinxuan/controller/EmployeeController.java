@@ -2,7 +2,7 @@ package com.itheima.yupinxuan.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.itheima.yupinxuan.Employee.Employee;
+import com.itheima.yupinxuan.entity.Employee;
 import com.itheima.yupinxuan.common.R;
 import com.itheima.yupinxuan.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
@@ -99,7 +99,7 @@ public class EmployeeController {
     public R<Page> page(int page,int pageSize,String name){
         log.info("page = {},pageSize = {},name = {}",page,pageSize,name);
         //构造分页构造器
-        Page pageInfo = new Page(page,pageSize);
+        Page<Employee> pageInfo = new Page(page,pageSize);
         //添加过滤条件
         LambdaQueryWrapper<Employee> queryWrapper=new LambdaQueryWrapper<>();
         //添加排序条件
@@ -120,9 +120,6 @@ public class EmployeeController {
     public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
         //因为传过来的Employee是json格式的所以需要在Employee employee前加@RequestBody
                 log.info(employee.toString());
-                Long emp = (Long) request.getSession().getAttribute("employee");
-                employee.setUpdateTime(LocalDateTime.now());
-                employee.setUpdateUser(emp);
                 employeeService.updateById(employee);
         return R.success("员工信息修改成功");
     }

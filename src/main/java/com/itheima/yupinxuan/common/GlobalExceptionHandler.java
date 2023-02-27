@@ -23,4 +23,8 @@ public class GlobalExceptionHandler {
 
         return R.error("添加失败");
     }
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException ex){
+        return R.error(ex.getMessage());
+    }
 }

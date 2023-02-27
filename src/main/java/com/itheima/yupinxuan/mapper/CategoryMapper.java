@@ -1,10 +1,9 @@
 package com.itheima.yupinxuan.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.itheima.yupinxuan.entity.Employee;
+import com.itheima.yupinxuan.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface EmployeeMapper extends BaseMapper<Employee> {
-
+public interface CategoryMapper extends BaseMapper<Category> {
 }
