@@ -33,7 +33,8 @@ public class LoginCheckFilter implements Filter {
                 "/employee/login",
                 "/employee/logout",
                 "/backend/**",
-                "/front/**"
+                "/front/**",
+                "/common/**"
         };
         //2、判断本次请求是否需要处理（check检查路径是否在上面配置通配符路径里面）
         boolean check = check(urls, requestURI);
