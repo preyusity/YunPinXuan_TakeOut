@@ -3,12 +3,18 @@ package com.itheima.yupinxuan.controller;
 import com.itheima.yupinxuan.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import sun.jvm.hotspot.runtime.Bytes;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -44,6 +50,32 @@ public class CommonController {
         //return文件明
         return  R.success(x);
     }
-
-
+    /**文件下载
+     @param name
+     @param response
+     */
+    @GetMapping("/download")
+    public void  download(String name, HttpServletResponse response){
+        //输入流，通过输入流读取文件内容
+        try {
+            FileInputStream inputStream=new FileInputStream(new File(basePath+name));
+            //输出流，通过输出流将文件写回客户端浏览器
+            ServletOutputStream outputStream= response.getOutputStream();
+            //规定输出格式"image/jpeg"
+            response.setContentType("image/jpeg");
+            int len=0;
+            byte[] bytes=new byte[1024];
+            //len为-1时候为读取完
+            while ((len=inputStream.read(bytes))!=-1){
+                outputStream.write(bytes,0,len);
+                //从byte为0的地方开始写写到len
+                outputStream.flush();
+            }
+            //关闭资源
+            inputStream.close();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

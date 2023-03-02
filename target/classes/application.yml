@@ -28,5 +28,5 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
     banner: false
-#reggie:
-#  path: /Users/litianjian/Downloads/reggie file/
+yupinxuan:
+  path: /Users/litianjian/Downloads/yupinxuan/
