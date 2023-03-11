@@ -96,18 +96,33 @@ public class DishController {
      */
     @GetMapping("{id}")
     private R<DishDto> get(@PathVariable Long id){
-
-        return R.success(dishService.getByIdWithFlavor(id));
+        DishDto dishDto = dishService.getByIdWithFlavor(id);
+        return R.success(dishDto);
     }
 
     /**修改菜品
      @param dishDto
      @return
      */
-    @PostMapping
+    @PutMapping
     public R<String> update(@RequestBody DishDto dishDto){
-        dishService.saveWithFlavor(dishDto);
+        dishService.updateWithFlavor(dishDto);
         return R.success("修改菜品成功");
+    }
+
+    /**根据条件查询对应的菜品数据
+     @param dish
+     @return
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+        LambdaQueryWrapper<Dish> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId()!=null, Dish::getCategoryId,dish.getCategoryId());
+        queryWrapper.eq(Dish::getStatus,1);
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        List<Dish> list = dishService.list(queryWrapper);
+        return R.success(list);
+
     }
 
 }

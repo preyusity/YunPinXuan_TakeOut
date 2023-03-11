@@ -1,10 +1,10 @@
 package com.itheima.yupinxuan.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.itheima.yupinxuan.entity.Setmeal;
+import com.itheima.yupinxuan.entity.SetmealDish;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SetmealMapper extends BaseMapper<Setmeal> {
-
+public interface SetmealDishMapper extends BaseMapper<SetmealDish> {
 }
