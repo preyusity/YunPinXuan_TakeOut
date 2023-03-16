@@ -34,7 +34,9 @@ public class LoginCheckFilter implements Filter {
                 "/employee/logout",
                 "/backend/**",
                 "/front/**",
-                "/common/**"
+                "/common/**",
+                "/user/sendMsg",
+                "/user/login"
         };
         //2、判断本次请求是否需要处理（check检查路径是否在上面配置通配符路径里面）
         boolean check = check(urls, requestURI);
@@ -44,11 +46,23 @@ public class LoginCheckFilter implements Filter {
             filterChain.doFilter(request,response);
             return;
         }
-        //4、判断登录状态，如果已登录，
+        //4-1判断登录状态，如果已登录，
         if (request.getSession().getAttribute("employee")!=null){
             Long x= (Long) request.getSession().getAttribute("employee");
             BaseContext.setCurrectId(x);
             log.info("用户已登录，用户id为：{}",request.getSession().getAttribute("employee"));
+            filterChain.doFilter(request,response);
+            return;
+        }
+        //4-2、判断移动端用户登录状态，如果已登录，则直接放行
+        if (request.getSession().getAttribute("user")!=null){
+            log.info("用户已登录，ID为：{}",request.getSession().getAttribute("user"));
+
+
+            //调用封装在BaseContext中的线程设置ID的方法
+            Long userId = (Long) request.getSession().getAttribute("user");
+            BaseContext.setCurrectId(userId);
+
             filterChain.doFilter(request,response);
             return;
         }
